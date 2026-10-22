@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="text-center mb-5">
+
+    <span class="eyebrow">
+        PRODUCTS BLUEPRINT
+    </span>
+
+    <h1 class="display-4 fw-bold mt-3">
+        Каталог товарів
+    </h1>
+
+    <p class="lead mt-3">
+        Перегляньте доступні товари
+        та детальну інформацію про них.
+    </p>
+
+</section>
+
+<section class="row g-4">
+
+    {% for product in products %}
+
+    <div class="col-md-6 col-lg-4">
+
+        <article class="project-card h-100 d-flex flex-column">
+
+            <span class="eyebrow">
+                PRODUCT #{{ product.id }}
+            </span>
+
+            <h2 class="h3 mt-3">
+                {{ product.name }}
+            </h2>
+
+            <p class="muted-text flex-grow-1">
+                {{ product.content }}
+            </p>
+
+            <h3 class="h4 text-success">
+                ${{ product.price }}
+            </h3>
+
+            <a
+                href="{{ url_for('products.product_detail', product_id=product.id) }}"
+                class="btn btn-primary mt-3"
+            >
+                Детальніше
+            </a>
+
+        </article>
+
+    </div>
+
+    {% endfor %}
+
+</section>
+
+{% endblock %}

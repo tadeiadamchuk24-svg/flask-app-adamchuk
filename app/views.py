@@ -1,7 +1,6 @@
-from pathlib import Path
-from flask import Flask, render_template, request, redirect, url_for
+from flask import render_template, request, redirect, url_for
+from app import app
 
-app = Flask(__name__)
 
 resume_data = {
     "name": "Тадей Адамчук",
@@ -63,6 +62,17 @@ def resume():
     )
 
 
+@app.route("/homepage")
+def home():
+    agent = request.user_agent.string
+
+    return render_template(
+        "homepage.html",
+        page_title="Homepage",
+        agent=agent
+    )
+
+
 @app.route("/contacts", methods=["GET", "POST"])
 def contacts():
     if request.method == "POST":
@@ -86,7 +96,3 @@ def contacts():
         sent=request.args.get("sent") == "1",
         error=None
     )
-
-
-if __name__ == "__main__":
-    app.run(debug=True, port=8080)

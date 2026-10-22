@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="section-card text-center">
+
+    <span class="eyebrow">
+        LABORATORY WORK №3
+    </span>
+
+    <h1 class="display-4 fw-bold mt-3">
+        Flask Application
+    </h1>
+
+    <p class="lead mt-4">
+        Ласкаво просимо до вебзастосунку
+        з модульною структурою та Blueprints.
+    </p>
+
+    <p class="muted-text">
+        Проєкт розроблено на Python із
+        використанням Flask і Jinja2.
+    </p>
+
+    <div class="d-flex flex-wrap justify-content-center gap-3 mt-4">
+
+        <a href="{{ url_for('resume') }}"
+           class="btn btn-primary">
+            Моє резюме
+        </a>
+
+        <a href="{{ url_for('users.greetings', name='John', age=30) }}"
+           class="btn btn-outline-light">
+            Users Blueprint
+        </a>
+
+        <a href="{{ url_for('products.list_products') }}"
+           class="btn btn-outline-light">
+            Products Blueprint
+        </a>
+
+    </div>
+
+</section>
+
+<section class="section-card mt-4">
+
+    <h2 class="section-title">
+        Інформація про браузер
+    </h2>
+
+    <p class="muted-text mb-0" style="overflow-wrap: anywhere;">
+        {{ agent }}
+    </p>
+
+</section>
+
+{% endblock %}

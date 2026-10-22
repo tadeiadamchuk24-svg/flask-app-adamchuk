@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="section-card">
+
+    <span class="eyebrow">
+        PRODUCT DETAILS
+    </span>
+
+    <h1 class="display-4 fw-bold mt-3">
+        {{ product.name }}
+    </h1>
+
+    <div class="mt-4">
+
+        <p>
+            <strong>ID товару:</strong>
+            {{ product.id }}
+        </p>
+
+        <p class="lead">
+            {{ product.content }}
+        </p>
+
+        <h2 class="h3 text-success mt-4">
+            Ціна: ${{ product.price }}
+        </h2>
+
+    </div>
+
+    <a
+        href="{{ url_for('products.list_products') }}"
+        class="btn btn-outline-light mt-4"
+    >
+        ← Повернутися до товарів
+    </a>
+
+</section>
+
+{% endblock %}

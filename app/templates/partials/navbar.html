@@ -1,0 +1,64 @@
+<nav class="navbar navbar-expand-lg navbar-dark site-navbar">
+    <div class="container">
+
+        <a class="navbar-brand fw-bold"
+           href="{{ url_for('home') }}">
+            TA.DEV
+        </a>
+
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarMenu"
+            aria-controls="navbarMenu"
+            aria-expanded="false"
+            aria-label="Відкрити меню"
+        >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarMenu">
+
+            <ul class="navbar-nav ms-auto">
+
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="{{ url_for('home') }}">
+                        Homepage
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="{{ url_for('resume') }}">
+                        Резюме
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="{{ url_for('users.greetings', name='John', age=30) }}">
+                        Users
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="{{ url_for('products.list_products') }}">
+                        Products
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="{{ url_for('contacts') }}">
+                        Контакти
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+    </div>
+</nav>
