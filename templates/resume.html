@@ -1,0 +1,175 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section id="about" class="hero-section mb-5">
+
+    <div class="row align-items-center g-4">
+
+        <div class="col-lg-8">
+
+            <span class="eyebrow">
+                МОЄ ПОРТФОЛІО
+            </span>
+
+            <h1 class="display-4 fw-bold mt-3">
+                Привіт! Я
+                <span class="accent-text">
+                    {{ resume.name }}
+                </span>
+            </h1>
+
+            <h2 class="h4 mt-3 text-light">
+                {{ resume.role }}
+            </h2>
+
+            <p class="lead mt-4">
+                {{ resume.about }}
+            </p>
+
+            <a
+                href="{{ url_for('contacts') }}"
+                class="btn btn-primary btn-lg mt-3"
+            >
+                Зв'язатися зі мною
+            </a>
+
+            <a
+                href="#projects"
+                class="btn btn-outline-light btn-lg mt-3 ms-2"
+            >
+                Мої проєкти
+            </a>
+
+        </div>
+
+        <div class="col-lg-4 text-center">
+
+            <img
+                src="{{ url_for('static', filename=photo) }}"
+                alt="Фото Тадея Адамчука"
+                class="profile-image img-fluid"
+            >
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section id="education" class="section-card mb-4">
+
+    <h2 class="section-title">
+        Освіта
+    </h2>
+
+    <p>
+        {{ resume.education }}
+    </p>
+
+    <p class="muted-text mb-0">
+        Вивчення мов програмування, алгоритмів,
+        баз даних та технологій веброзробки.
+    </p>
+
+</section>
+
+
+<section id="skills" class="section-card mb-4">
+
+    <h2 class="section-title">
+        Навички
+    </h2>
+
+    <div class="row g-3">
+
+        {% for skill in resume.skills %}
+
+        <div class="col-md-6">
+
+            <div class="skill-item">
+                <span class="check-mark">✓</span>
+                {{ skill }}
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+
+<section id="technologies" class="section-card mb-4">
+
+    <h2 class="section-title">
+        Технології
+    </h2>
+
+    <div class="d-flex flex-wrap gap-2">
+
+        {% for technology in resume.technologies %}
+
+        <span class="tech-badge">
+            {{ technology }}
+        </span>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+
+<section id="experience" class="section-card mb-4">
+
+    <h2 class="section-title">
+        Досвід роботи
+    </h2>
+
+    <h3 class="h5">
+        Навчальні та практичні проєкти
+    </h3>
+
+    <p class="mb-0">
+        {{ resume.experience }}
+    </p>
+
+</section>
+
+
+<section id="projects" class="section-card mb-4">
+
+    <h2 class="section-title">
+        Мої проєкти
+    </h2>
+
+    <div class="row g-4">
+
+        {% for project in resume.projects %}
+
+        <div class="col-md-6 col-xl-4">
+
+            <article class="project-card h-100">
+
+                <h3 class="h5">
+                    {{ project.name }}
+                </h3>
+
+                <p class="mb-0">
+                    {{ project.description }}
+                </p>
+
+            </article>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endblock %}

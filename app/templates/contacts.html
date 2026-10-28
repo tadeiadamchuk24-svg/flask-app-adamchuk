@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="section-card contact-section">
+
+    <div class="text-center mb-5">
+
+        <span class="eyebrow">
+            ЗВОРОТНИЙ ЗВ'ЯЗОК
+        </span>
+
+        <h1 class="display-5 fw-bold mt-3">
+            {{ page_title }}
+        </h1>
+
+        <p class="muted-text">
+            Маєте питання або пропозицію?
+            Заповніть форму нижче.
+        </p>
+
+    </div>
+
+    {% if sent %}
+
+    <div class="alert alert-success" role="status">
+        Демонстраційна форма успішно оброблена.
+        Повідомлення не надсилалося на пошту.
+    </div>
+
+    {% endif %}
+
+    {% if error %}
+
+    <div class="alert alert-danger" role="alert">
+        {{ error }}
+    </div>
+
+    {% endif %}
+
+    <form
+        action="{{ url_for('contacts') }}"
+        method="POST"
+        class="contact-form"
+    >
+
+        <div class="mb-4">
+
+            <label for="name" class="form-label">
+                Ваше ім'я
+            </label>
+
+            <input
+                type="text"
+                id="name"
+                name="name"
+                class="form-control"
+                placeholder="Введіть ваше ім'я"
+                required
+            >
+
+        </div>
+
+        <div class="mb-4">
+
+            <label for="email" class="form-label">
+                Електронна пошта
+            </label>
+
+            <input
+                type="email"
+                id="email"
+                name="email"
+                class="form-control"
+                placeholder="example@gmail.com"
+                required
+            >
+
+        </div>
+
+        <div class="mb-4">
+
+            <label for="message" class="form-label">
+                Повідомлення
+            </label>
+
+            <textarea
+                id="message"
+                name="message"
+                class="form-control"
+                rows="5"
+                placeholder="Напишіть ваше повідомлення..."
+                required
+            ></textarea>
+
+        </div>
+
+        <button
+            type="submit"
+            class="btn btn-primary btn-lg w-100"
+        >
+            Надіслати повідомлення
+        </button>
+
+    </form>
+
+    <div class="contact-links mt-5 text-center">
+
+        <h2 class="h5">
+            Мої соціальні мережі
+        </h2>
+
+        <a
+            href="https://github.com/tadeiadamchuk24-svg"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-outline-light mt-3"
+        >
+            Перейти на GitHub
+        </a>
+
+    </div>
+
+</section>
+
+{% endblock %}
