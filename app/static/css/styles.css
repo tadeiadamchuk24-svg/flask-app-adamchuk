@@ -329,3 +329,47 @@ main {
         text-align: center;
     }
 }
+
+/* Лабораторна №4 */
+
+.cookie-table {
+    table-layout: fixed;
+}
+
+.cookie-table th:last-child {
+    width: 120px;
+}
+
+.cookie-value {
+    overflow-wrap: anywhere;
+}
+
+.profile-theme-light {
+    background: #eef2f7;
+    color: #1c2d43;
+}
+
+.profile-theme-light .section-card {
+    background: #ffffff;
+    border-color: #d4dce8;
+}
+
+.profile-theme-light .section-title,
+.profile-theme-light .form-label {
+    color: #1c2d43;
+}
+
+.profile-theme-light .eyebrow {
+    color: #1762b3;
+}
+
+.profile-theme-light .form-control,
+.profile-theme-light .form-control:focus {
+    background: #ffffff;
+    color: #1c2d43;
+    border-color: #9cacc2;
+}
+
+.profile-theme-dark {
+    color-scheme: dark;
+}

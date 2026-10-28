@@ -1,0 +1,205 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section class="section-card mb-4">
+    <p class="eyebrow">ОСОБИСТИЙ КАБІНЕТ</p>
+
+    <h1 class="section-title">Привіт, {{ username }}!</h1>
+
+    <p>
+        Ім’я отримано із сесії.
+        Поточна тема:
+        {{ 'світла' if theme == 'light' else 'темна' }}.
+    </p>
+
+    <div class="d-flex flex-wrap gap-2">
+
+        <form
+            method="post"
+            action="{{ url_for('users.change_theme', theme='light') }}"
+        >
+            <button class="btn btn-primary" type="submit">
+                Світла тема
+            </button>
+        </form>
+
+        <form
+            method="post"
+            action="{{ url_for('users.change_theme', theme='dark') }}"
+        >
+            <button class="btn btn-secondary" type="submit">
+                Темна тема
+            </button>
+        </form>
+
+        <form method="post" action="{{ url_for('users.logout') }}">
+            <button class="btn btn-danger" type="submit">
+                Вийти
+            </button>
+        </form>
+
+    </div>
+</section>
+
+<div class="row g-4">
+
+    <section class="col-lg-6">
+        <div class="section-card h-100">
+            <h2 class="section-title">Додати кукі</h2>
+
+            <form
+                method="post"
+                action="{{ url_for('users.add_cookie') }}"
+            >
+                <div class="mb-3">
+                    <label class="form-label" for="key">
+                        Ключ
+                    </label>
+
+                    <input
+                        class="form-control"
+                        id="key"
+                        name="key"
+                        pattern="[A-Za-z0-9_-]{1,64}"
+                        maxlength="64"
+                        placeholder="city"
+                        required
+                    >
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="value">
+                        Значення
+                    </label>
+
+                    <input
+                        class="form-control"
+                        id="value"
+                        name="value"
+                        placeholder="Lviv"
+                    >
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="lifetime">
+                        Термін дії у секундах
+                    </label>
+
+                    <input
+                        class="form-control"
+                        id="lifetime"
+                        name="lifetime"
+                        type="number"
+                        min="1"
+                        max="31536000"
+                        value="3600"
+                        required
+                    >
+                </div>
+
+                <button class="btn btn-primary" type="submit">
+                    Зберегти кукі
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <section class="col-lg-6">
+        <div class="section-card h-100">
+            <h2 class="section-title">Видалити кукі</h2>
+
+            <form
+                method="post"
+                action="{{ url_for('users.delete_cookie') }}"
+                class="mb-4"
+            >
+                <label class="form-label" for="delete-key">
+                    Ключ кукі
+                </label>
+
+                <input
+                    class="form-control mb-3"
+                    id="delete-key"
+                    name="key"
+                    placeholder="city"
+                    required
+                >
+
+                <button class="btn btn-outline-danger" type="submit">
+                    Видалити за ключем
+                </button>
+            </form>
+
+            <form
+                method="post"
+                action="{{ url_for('users.delete_all_cookies') }}"
+            >
+                <button class="btn btn-danger" type="submit">
+                    Видалити всі кукі та вийти
+                </button>
+            </form>
+
+            <p class="mt-3 mb-0">
+                Видалення всіх кукі або службової кукі
+                <code>{{ session_cookie }}</code>
+                завершує вхід у систему.
+            </p>
+        </div>
+    </section>
+
+</div>
+
+<section class="section-card mt-4">
+    <h2 class="section-title">Поточні кукі</h2>
+
+    <p>Кукі, які браузер передав у поточному запиті.</p>
+
+    <div class="table-responsive">
+        <table class="table align-middle cookie-table">
+
+            <thead>
+                <tr>
+                    <th scope="col">Ключ</th>
+                    <th scope="col">Значення</th>
+                    <th scope="col">Дія</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for key, value in cookies.items() %}
+                <tr>
+                    <td>{{ key }}</td>
+                    <td class="cookie-value">{{ value }}</td>
+                    <td>
+                        <form
+                            method="post"
+                            action="{{ url_for('users.delete_cookie') }}"
+                        >
+                            <input
+                                type="hidden"
+                                name="key"
+                                value="{{ key }}"
+                            >
+
+                            <button
+                                class="btn btn-sm btn-outline-danger"
+                                type="submit"
+                            >
+                                {{ 'Вийти' if key == session_cookie else 'Видалити' }}
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="3">Збережених кукі немає.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+    </div>
+</section>
+
+{% endblock %}

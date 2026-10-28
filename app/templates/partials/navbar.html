@@ -56,7 +56,27 @@
                         Контакти
                     </a>
                 </li>
+                <li class="nav-item">
+    <a class="nav-link" href="{{ url_for('users.profile') }}">
+        Профіль
+    </a>
+</li>
 
+<li class="nav-item">
+    <a class="nav-link" href="{{ url_for('users.login') }}">
+        Вхід
+    </a>
+</li>
+
+{% if session.get('username') %}
+<li class="nav-item">
+    <form method="post" action="{{ url_for('users.logout') }}">
+        <button class="nav-link" type="submit">
+            Вийти
+        </button>
+    </form>
+</li>
+{% endif %}
             </ul>
 
         </div>
