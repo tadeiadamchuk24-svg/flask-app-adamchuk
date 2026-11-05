@@ -4,37 +4,82 @@
 
 <section class="section-card">
 
-    <span class="eyebrow">
-        PRODUCT DETAILS
-    </span>
-
-    <h1 class="display-4 fw-bold mt-3">
+    <h1>
         {{ product.name }}
     </h1>
 
-    <div class="mt-4">
+    {% if product.image %}
 
-        <p>
-            <strong>ID товару:</strong>
-            {{ product.id }}
-        </p>
+    <img
+        src="{{ url_for('products.static', filename=product.image) }}"
+        alt="{{ product.name }}"
+        class="img-fluid my-3"
+        style="max-height:350px"
+        onerror="this.hidden=true;this.nextElementSibling.hidden=false"
+    >
 
-        <p class="lead">
-            {{ product.content }}
-        </p>
+    <p hidden>
+        Зображення недоступне
+    </p>
 
-        <h2 class="h3 text-success mt-4">
-            Ціна: ${{ product.price }}
-        </h2>
+    {% else %}
+
+    <p>
+        Без зображення
+    </p>
+
+    {% endif %}
+
+    <p style="white-space:pre-wrap">{{ product.content }}</p>
+
+    <p>
+        Категорія:
+        {{ categories.get(product.category, product.category) }}
+    </p>
+
+    <p>
+        Ціна: {{ product.price }} грн
+    </p>
+
+    <p>
+        Кількість: {{ product.quantity }}
+    </p>
+
+    <p>
+        ID: {{ product.id }}
+    </p>
+
+    <p>
+        Створено: {{ product.created_at }}
+    </p>
+
+    <div class="d-flex gap-2 flex-wrap">
+
+        <a
+            class="btn btn-secondary"
+            href="{{ url_for('products.list_products') }}"
+        >
+            До списку
+        </a>
+
+        <a
+            class="btn btn-primary"
+            href="{{ url_for('products.edit_product', product_id=product.id) }}"
+        >
+            Редагувати
+        </a>
+
+        <form
+            method="post"
+            action="{{ url_for('products.remove_product', product_id=product.id) }}"
+            onsubmit="return confirm('Видалити цей товар?')"
+        >
+            {{ delete_form.hidden_tag() }}
+
+            {{ delete_form.submit(class="btn btn-danger") }}
+        </form>
 
     </div>
-
-    <a
-        href="{{ url_for('products.list_products') }}"
-        class="btn btn-outline-light mt-4"
-    >
-        ← Повернутися до товарів
-    </a>
 
 </section>
 

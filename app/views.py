@@ -1,3 +1,10 @@
+import json
+
+from pathlib import Path
+from datetime import datetime, timezone
+from flask import flash
+
+from app.forms import ContactForm
 from flask import render_template, request, redirect, url_for
 from app import app
 
@@ -73,26 +80,64 @@ def home():
     )
 
 
+@app.route("/contact", methods=["GET", "POST"])
 @app.route("/contacts", methods=["GET", "POST"])
 def contacts():
-    if request.method == "POST":
-        name = request.form.get("name", "").strip()
-        email = request.form.get("email", "").strip()
-        message = request.form.get("message", "").strip()
+    form = ContactForm()
 
-        if not name or not email or not message:
-            return render_template(
-                "contacts.html",
-                page_title="Контакти",
-                error="Заповніть усі поля форми.",
-                sent=False
-            ), 400
+    if form.validate_on_submit():
+        entry = {
+            "created_at": datetime.now(timezone.utc).isoformat(
+                timespec="seconds"
+            ),
+            "name": form.name.data,
+            "email": form.email.data,
+            "subject": form.subject.data,
+            "message": form.message.data,
+        }
 
-        return redirect(url_for("contacts", sent="1"))
+        try:
+            path = Path(app.config["CONTACT_LOG"])
+
+            path.parent.mkdir(
+                parents=True,
+                exist_ok=True,
+            )
+
+            with path.open("a", encoding="utf-8") as log:
+                log.write(
+                    json.dumps(entry, ensure_ascii=False) + "\n"
+                )
+
+        except OSError:
+            app.logger.exception(
+                "Не вдалося записати контактне повідомлення"
+            )
+
+            flash(
+                "Повідомлення не збережено. Спробуйте ще раз.",
+                "danger",
+            )
+
+        else:
+            flash(
+                "Повідомлення успішно прийнято та записано в лог.",
+                "success",
+            )
+
+            return redirect(
+                url_for("contacts"),
+                code=303,
+            )
+
+    elif request.method == "POST":
+        flash(
+            "Повідомлення не прийнято. Перевірте поля форми.",
+            "danger",
+        )
 
     return render_template(
         "contacts.html",
         page_title="Контакти",
-        sent=request.args.get("sent") == "1",
-        error=None
+        form=form,
     )

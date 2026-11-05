@@ -1,3 +1,9 @@
 .venv/
+venv/
 __pycache__/
 *.pyc
+.env
+.DS_Store
+logs/
+data/products.json
+app/products/static/uploads/*
