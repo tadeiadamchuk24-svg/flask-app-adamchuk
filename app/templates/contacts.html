@@ -1,125 +1,39 @@
 {% extends "base.html" %}
 
+{% from "macros/forms.html" import render_field %}
+
 {% block content %}
 
-<section class="section-card contact-section">
+<section class="section-card">
 
-    <div class="text-center mb-5">
-
-        <span class="eyebrow">
-            ЗВОРОТНИЙ ЗВ'ЯЗОК
-        </span>
-
-        <h1 class="display-5 fw-bold mt-3">
-            {{ page_title }}
-        </h1>
-
-        <p class="muted-text">
-            Маєте питання або пропозицію?
-            Заповніть форму нижче.
-        </p>
-
-    </div>
-
-    {% if sent %}
-
-    <div class="alert alert-success" role="status">
-        Демонстраційна форма успішно оброблена.
-        Повідомлення не надсилалося на пошту.
-    </div>
-
-    {% endif %}
-
-    {% if error %}
-
-    <div class="alert alert-danger" role="alert">
-        {{ error }}
-    </div>
-
-    {% endif %}
+    <h1 class="mb-4">Контакти</h1>
 
     <form
+        method="post"
         action="{{ url_for('contacts') }}"
-        method="POST"
-        class="contact-form"
+        novalidate
     >
+        {{ form.hidden_tag() }}
 
-        <div class="mb-4">
+        {% if form.csrf_token is defined %}
+            {% for error in form.csrf_token.errors %}
+                <div class="alert alert-danger">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        {% endif %}
 
-            <label for="name" class="form-label">
-                Ваше ім'я
-            </label>
+        {{ render_field(form.name) }}
 
-            <input
-                type="text"
-                id="name"
-                name="name"
-                class="form-control"
-                placeholder="Введіть ваше ім'я"
-                required
-            >
+        {{ render_field(form.email) }}
 
-        </div>
+        {{ render_field(form.subject) }}
 
-        <div class="mb-4">
+        {{ render_field(form.message, rows=5) }}
 
-            <label for="email" class="form-label">
-                Електронна пошта
-            </label>
-
-            <input
-                type="email"
-                id="email"
-                name="email"
-                class="form-control"
-                placeholder="example@gmail.com"
-                required
-            >
-
-        </div>
-
-        <div class="mb-4">
-
-            <label for="message" class="form-label">
-                Повідомлення
-            </label>
-
-            <textarea
-                id="message"
-                name="message"
-                class="form-control"
-                rows="5"
-                placeholder="Напишіть ваше повідомлення..."
-                required
-            ></textarea>
-
-        </div>
-
-        <button
-            type="submit"
-            class="btn btn-primary btn-lg w-100"
-        >
-            Надіслати повідомлення
-        </button>
+        {{ form.submit(class="btn btn-primary") }}
 
     </form>
-
-    <div class="contact-links mt-5 text-center">
-
-        <h2 class="h5">
-            Мої соціальні мережі
-        </h2>
-
-        <a
-            href="https://github.com/tadeiadamchuk24-svg"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="btn btn-outline-light mt-3"
-        >
-            Перейти на GitHub
-        </a>
-
-    </div>
 
 </section>
 
