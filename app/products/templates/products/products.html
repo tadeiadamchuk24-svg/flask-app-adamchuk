@@ -2,60 +2,92 @@
 
 {% block content %}
 
-<section class="text-center mb-5">
+<div class="d-flex justify-content-between align-items-center mb-4">
 
-    <span class="eyebrow">
-        PRODUCTS BLUEPRINT
-    </span>
+    <h1>Товари</h1>
 
-    <h1 class="display-4 fw-bold mt-3">
-        Каталог товарів
-    </h1>
+    <a
+        class="btn btn-primary"
+        href="{{ url_for('products.add_product') }}"
+    >
+        Додати товар
+    </a>
 
-    <p class="lead mt-3">
-        Перегляньте доступні товари
-        та детальну інформацію про них.
-    </p>
+</div>
 
-</section>
-
-<section class="row g-4">
+<div class="row g-4">
 
     {% for product in products %}
 
     <div class="col-md-6 col-lg-4">
 
-        <article class="project-card h-100 d-flex flex-column">
+        <article class="card h-100">
 
-            <span class="eyebrow">
-                PRODUCT #{{ product.id }}
-            </span>
+            {% if product.image %}
 
-            <h2 class="h3 mt-3">
-                {{ product.name }}
-            </h2>
-
-            <p class="muted-text flex-grow-1">
-                {{ product.content }}
-            </p>
-
-            <h3 class="h4 text-success">
-                ${{ product.price }}
-            </h3>
-
-            <a
-                href="{{ url_for('products.product_detail', product_id=product.id) }}"
-                class="btn btn-primary mt-3"
+            <img
+                src="{{ url_for('products.static', filename=product.image) }}"
+                alt="{{ product.name }}"
+                class="card-img-top"
+                style="height:220px;object-fit:contain"
+                onerror="this.hidden=true;this.nextElementSibling.hidden=false"
             >
-                Детальніше
-            </a>
+
+            <div class="text-center p-5" hidden>
+                Зображення недоступне
+            </div>
+
+            {% else %}
+
+            <div class="text-center p-5">
+                Без зображення
+            </div>
+
+            {% endif %}
+
+            <div class="card-body">
+
+                <h2 class="h5">
+                    {{ product.name }}
+                </h2>
+
+                <p>
+                    {{ categories.get(product.category, product.category) }}
+                </p>
+
+                <p>
+                    Ціна: {{ product.price }} грн
+                </p>
+
+                <p>
+                    Кількість: {{ product.quantity }}
+                </p>
+
+                <p class="small">
+                    Додано: {{ product.created_at }}
+                </p>
+
+                <a
+                    class="btn btn-outline-primary"
+                    href="{{ url_for('products.product_detail', product_id=product.id) }}"
+                >
+                    Детальніше
+                </a>
+
+            </div>
 
         </article>
 
     </div>
 
+    {% else %}
+
+    <p>
+        Товарів ще немає. Додайте перший товар.
+    </p>
+
     {% endfor %}
 
-</section>
+</div>
 
 {% endblock %}
